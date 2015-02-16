@@ -55,7 +55,7 @@ def build_video_directory( url, page, section ):
 		base = 'http://www.nba.com/.element/ssi/auto/2.0/aps/video/playlists/' + section + '.html?section='
 	else:
 		base = 'http://searchapp2.nba.com/nba-search/query.jsp?section='
-	url = base + url + '&season=1213&sort=recent&hide=true&type=advvideo&npp=15&start=' + str(1+(15*(page-1)))
+	url = base + url + '&sort=recent&hide=true&type=advvideo&npp=15&start=' + str(1+(15*(page-1)))
 	html = getUrl(url)
 	textarea = common.parseDOM(html, "textarea", attrs = { "id": "jsCode" })[0]
 	content = textarea.replace("\\'","\\\\'").replace('\\\\"','\\\\\\"').replace('\\n','').replace('\\t','').replace('\\x','')
@@ -109,7 +109,10 @@ def play_video( name, url, thumb, plot ):
 		dialog = xbmcgui.Dialog()
 		ok = dialog.ok( plugin , settings.getLocalizedString( 30006 ) )
 		return
-	url = 'http://nba.cdn.turner.com/nba/big' + common.parseDOM(html['content'], "file", attrs = { "type": "large" })[0]
+	if common.parseDOM(html['content'], "file", attrs = { "bitrate": "1280x720_3072" }):
+		url = common.parseDOM(html['content'], "file", attrs = { "bitrate": "1280x720_3072" })[0]
+	else:
+		url = 'http://nba.cdn.turner.com/nba/big' + common.parseDOM(html['content'], "file", attrs = { "type": "large" })[0]
 	infoLabels = { "Title": name , "Studio": plugin, "Plot": plot }
 	playListItem(label = name, image = thumb, path = url, infoLabels = infoLabels, PlayPath = False)
 
