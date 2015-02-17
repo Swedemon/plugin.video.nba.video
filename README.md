@@ -1,4 +1,4 @@
-# plugin.video.nba.video-fork
+# plugin.video.nba.video
 NBA.com video plugin developed by stacked. I've provided a fix to enable streams to function as of Feb '15.
 
 Kodi official forum for this plugin.  Post here for support:
