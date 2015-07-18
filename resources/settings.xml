@@ -1,3 +1,4 @@
 <settings>
    <setting id="view" type="bool" label="30055" default="true"/>
+   <setting id="quality" type="select" label="30007" values="640x360_664m|768x432_996|768x432_1404|960x540_2104|1280x720_3072" default="1280x720_3072"/>
 </settings>

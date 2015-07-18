@@ -109,8 +109,8 @@ def play_video( name, url, thumb, plot ):
 		dialog = xbmcgui.Dialog()
 		ok = dialog.ok( plugin , settings.getLocalizedString( 30006 ) )
 		return
-	if common.parseDOM(html['content'], "file", attrs = { "bitrate": "1280x720_3072" }):
-		url = common.parseDOM(html['content'], "file", attrs = { "bitrate": "1280x720_3072" })[0]
+	if common.parseDOM(html['content'], "file", attrs = { "bitrate": settings.getSetting("quality") }):
+		url = common.parseDOM(html['content'], "file", attrs = { "bitrate": settings.getSetting("quality") })[0]
 	else:
 		url = 'http://nba.cdn.turner.com/nba/big' + common.parseDOM(html['content'], "file", attrs = { "type": "large" })[0]
 	infoLabels = { "Title": name , "Studio": plugin, "Plot": plot }
