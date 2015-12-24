@@ -49,13 +49,22 @@ def build_video_directory( url, page, section ):
 			return
 		url = 'channels%2F*%7Cgames%2F*%7Cflip_video_diaries%7Cfiba&text=' + urllib.quote( text )
 	else:
-		search =  False
+		search = False
+	if url == 'team':
+		team = True
+		text = section
+		if text == None:
+			return
+		url = 'channels%2F*%7Cgames%2F*%7Cflip_video_diaries%7Cfiba&text=' + urllib.quote( text )
+	else:
+		team = False
 	save_url = url
-	if page == 1 and search != True:
+	if page == 1 and search != True and team != True:
 		base = 'http://www.nba.com/.element/ssi/auto/2.0/aps/video/playlists/' + section + '.html?section='
 	else:
 		base = 'http://searchapp2.nba.com/nba-search/query.jsp?section='
 	url = base + url + '&sort=recent&hide=true&type=advvideo&npp=15&start=' + str(1+(15*(page-1)))
+	#print 'NBA-URL=' + str(url)
 	html = getUrl(url)
 	textarea = common.parseDOM(html, "textarea", attrs = { "id": "jsCode" })[0]
 	content = textarea.replace("\\'","\\\\'").replace('\\\\"','\\\\\\"').replace('\\n','').replace('\\t','').replace('\\x','')
@@ -94,7 +103,7 @@ def build_teams_directory():
 	for title in team_names:
 		nick = re.compile("\(\'teams/(.+?)\'").findall(team_nicks[item_count])[0]
 		url = 'teams%2F' + nick + '%7Cgames%2F*%7Cchannels%2F*&team=' + title.replace(' ','%20') + '&site=nba%2C' + nick
-		u = { 'mode': '0', 'url': url, 'section': nick + '_all' }
+		u = { 'mode': '0', 'url': 'team', 'section': nick }
 		addListItem(label = title, image = teams_thumb, url = u, isFolder = True, infoLabels = False, fanart = fanart)
 		item_count += 1	
 	xbmcplugin.addSortMethod( handle = int(sys.argv[1]), sortMethod = xbmcplugin.SORT_METHOD_LABEL )
